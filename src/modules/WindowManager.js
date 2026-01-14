@@ -60,9 +60,10 @@ class WindowManager {
   }
 
   // 创建主窗口
-  createMainWindow() {
+  createMainWindow(options = {}) {
     try {
       const windowState = this.loadWindowState();
+      const startMinimized = options.startMinimized || false;
 
       this.mainWindow = new BrowserWindow({
         width: windowState.width,
@@ -92,8 +93,13 @@ class WindowManager {
 
       // 页面加载完成后显示窗口
       this.mainWindow.once('ready-to-show', () => {
-        this.mainWindow.show();
-        logger.info('主窗口已显示');
+        if (startMinimized) {
+          // 启动时最小化，不显示窗口
+          logger.info('主窗口已创建（启动时最小化到托盘）');
+        } else {
+          this.mainWindow.show();
+          logger.info('主窗口已显示');
+        }
       });
 
       // 监听窗口关闭事件

@@ -22,6 +22,16 @@ process.on('unhandledRejection', (reason, _promise) => {
   logger.error('未处理的Promise拒绝:', reason);
 });
 
+// 命令行参数解析
+function parseCommandLineArgs() {
+  const args = process.argv.slice(1); // 跳过 electron 路径
+  const options = {
+    minimize: args.includes('--minimize')
+  };
+  logger.debug('命令行参数解析结果:', options);
+  return options;
+}
+
 // 应用实例
 let windowManager;
 let trayManager;
@@ -37,23 +47,27 @@ if (!gotTheLock) {
 }
 
 // 监听 second-instance 事件，当有新实例尝试启动时触发
-app.on('second-instance', (_event, _commandLine, _workingDirectory) => {
-  logger.info('检测到新的应用实例启动，激活已存在的窗口');
+app.on('second-instance', (_event, commandLine, _workingDirectory) => {
+  // 解析新实例的命令行参数
+  const newInstanceOptions = {
+    minimize: commandLine.includes('--minimize')
+  };
+  logger.info('检测到新的应用实例启动，命令行参数:', newInstanceOptions);
 
   if (windowManager) {
-    // 显示并聚焦已存在的窗口
+    // 根据用户要求，无论新实例是否带 --minimize 参数，都显示窗口
     windowManager.showWindow();
   }
 });
 
 // 初始化应用
-function initializeApp() {
+function initializeApp(options = {}) {
   try {
-    logger.info('应用初始化开始');
+    logger.info('应用初始化开始', options);
     // 创建窗口管理器
     windowManager = new WindowManager();
-    // 创建主窗口
-    windowManager.createMainWindow();
+    // 创建主窗口，传递启动选项
+    windowManager.createMainWindow({ startMinimized: options.minimize });
     // 创建托盘管理器
     trayManager = new TrayManager(windowManager);
     try {
@@ -94,7 +108,9 @@ function cleanup() {
 // 应用事件监听
 app.whenReady().then(() => {
   logger.info('应用准备就绪');
-  initializeApp();
+  // 解析命令行参数并初始化应用
+  const options = parseCommandLineArgs();
+  initializeApp(options);
 });
 
 app.on('before-quit', () => {
