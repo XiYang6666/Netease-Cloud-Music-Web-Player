@@ -10,6 +10,7 @@ files:
   # 排除开发相关的文件
   - '!**/.idea'
   - '!**/.vscode'
+  - '!**/.claude'
   - '!**/.gitignore'
   - '!**/.github'
   - '!**/electron-builder.yml'

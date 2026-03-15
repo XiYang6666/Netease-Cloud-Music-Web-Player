@@ -40,7 +40,7 @@ npm install
 - **.github/workflows/package-asar.yml** - 自动打包发布工作流
 
 ### 重要实现细节
-1. **网页加载**：加载 `https://music.163.com/st/webplayer`，需要处理登录状态
+1. **网页加载**：加载 `https://music.163.com/st/webplayer` 需要处理登录状态
 2. **外部链接**：应用内点击的链接通过系统浏览器打开
 3. **窗口状态**：默认尺寸 1200x800，最小尺寸 800x600
 4. **托盘功能**：左键显示/隐藏窗口，右键提供退出菜单

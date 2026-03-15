@@ -13,67 +13,91 @@
 - 统一日志管理 - 分级日志记录与错误追踪
 - 静默启动支持 - 支持 `--minimize` 参数启动时最小化到托盘
 
-## 快速开始
+## 安装方式
 
-### 开发模式
+### 从 GitHub Release 安装
 
+1. 访问 [Releases 页面](https://github.com/feng-yifan/Netease-Cloud-Music-Web-Player/releases)
+2. 下载最新版本的压缩包（例如 `netease-cloud-music-web-player-x.x.x.tar.gz`）
+3. 解压文件：
+   ```bash
+   tar -xzf netease-cloud-music-web-player-x.x.x.tar.gz
+   ```
+4. 运行应用：
+   ```bash
+   ./netease-cloud-music-web-player
+   ```
+
+### 从 Arch User Repository (AUR) 安装
+
+对于 Arch Linux 及其衍生发行版用户，可以通过 AUR 安装：
+
+**使用 AUR 助手（推荐）：**
 ```bash
-npm install
-npm start
+# 使用 yay
+yay -S netease-cloud-music-web-player
+
+# 或使用 paru
+paru -S netease-cloud-music-web-player
 ```
 
-### 构建 Linux 版本
-
+**手动构建安装：**
 ```bash
-npm run package:linux
+git clone https://aur.archlinux.org/netease-cloud-music-web-player.git
+cd netease-cloud-music-web-player
+makepkg -si
 ```
 
-构建完成后，应用将生成在 `dist/linux-unpacked/` 目录下。
+**AUR 包地址：** https://aur.archlinux.org/packages/netease-cloud-music-web-player
 
-## 技术架构
+## 使用说明
 
-### 核心模块
+### 启动应用
 
-- **src/main.js** - 应用主进程入口，负责生命周期管理
-- **src/modules/WindowManager.js** - 窗口管理器，处理窗口创建和状态持久化
-- **src/modules/TrayManager.js** - 系统托盘管理器
-- **src/utils/logger.js** - 日志工具，支持 error/warn/info/debug 分级
-- **src/config/default.js** - 应用默认配置
+安装后，您可以通过以下方式启动应用：
 
-### 关键设计
+1. **命令行启动**：
+   ```bash
+   netease-cloud-music-web-player
+   ```
 
-- **模块化架构** - 功能模块独立封装，便于维护扩展
-- **事件驱动** - 基于 Electron ipcMain 的进程通信
-- **安全策略** - 禁用 Node 集成，启用上下文隔离
-- **状态持久化** - 窗口状态自动保存到用户数据目录
+2. **静默启动**（启动时最小化到托盘）：
+   ```bash
+   netease-cloud-music-web-player --minimize
+   ```
 
-### 技术栈
+3. **桌面环境启动**：
+   - 在应用菜单中搜索 "Netease Cloud Music"
+   - 点击图标启动应用
 
-- Electron 38.7.1
-- electron-builder 26.0.12
-- 纯 JavaScript 实现（无前端框架依赖）
+### 系统托盘功能
 
-## 构建配置
+应用启动后会在系统托盘显示图标：
 
-- **electron-builder.yml** - Electron 构建配置（仅支持 Linux x64）
-- **package/arch/aur/PKGBUILD** - Arch Linux AUR 包配置
-- **.github/workflows/package-asar.yml** - 自动打包发布工作流
+- **左键单击** - 显示/隐藏主窗口
+- **右键单击** - 显示菜单（包含退出选项）
 
-## CI/CD
+### 应用功能
 
-推送版本标签（格式：`x.x.x`）时自动触发：
+1. **音乐播放** - 登录网易云音乐账号后即可播放音乐
+2. **窗口控制** - 窗口大小和位置会自动保存，下次启动时恢复
+3. **外部链接** - 应用内点击的链接会通过系统默认浏览器打开
 
-1. 构建应用并生成 ASAR 包
-2. 创建压缩包和校验文件
-3. 上传 GitHub Release
-4. 生成并发布 AUR 包
+### 获取帮助
 
-## 注意事项
+如果遇到其他问题：
 
-- 项目使用 pnpm 工作区模式，npm 也兼容
-- 当前版本未配置自动化测试，依赖手动测试
-- AUR 发布需要配置 `AUR_SSH_PRIVATE_KEY` 等变量
-- 窗口默认尺寸 1200x800，最小尺寸 800x600
+1. **查看文档**：阅读 [开发者文档](./docs/development.md) 了解更多技术细节
+2. **报告问题**：在 [GitHub Issues](https://github.com/feng-yifan/Netease-Cloud-Music-Web-Player/issues) 报告问题
+3. **检查日志**：应用日志可能包含错误信息
+
+## 开发者文档
+
+技术文档和开发指南已迁移到 `docs/` 目录：
+
+- [开发指南](./docs/development.md) - 技术架构和开发指南
+- [构建指南](./docs/building.md) - 构建和发布流程
+- [图标原则](./docs/icon-principles.md) - 图标命名原则
 
 ## 许可证
 
