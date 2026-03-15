@@ -178,8 +178,8 @@ jobs:
           name: aur-files  # 产物名称
           include-hidden-files: true  # 包含隐藏文件（.SRCINFO 以点开头）
           path: |
-            PKGBUILD    # Arch Linux 包构建脚本
-            .SRCINFO    # AUR 包元数据文件
+            PKGBUILD
+            .SRCINFO
           retention-days: 1  # 产物保留时间（天）
   # 作业 3: 发布到 Arch Linux 用户仓库（AUR）
   # 将生成的包文件推送到 AUR Git 仓库
