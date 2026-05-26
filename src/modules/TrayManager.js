@@ -1,7 +1,7 @@
 const { Tray, Menu, nativeImage, shell } = require('electron');
 const fs = require('fs');
 const logger = require('../utils/logger');
-const config = require('../config/default');
+const config = require('../config');
 
 class TrayManager {
   constructor(windowManager) {

@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { URL } = require('url');
 const logger = require('../utils/logger');
-const config = require('../config/default');
+const config = require('../config');
 
 class WindowManager {
   constructor() {
